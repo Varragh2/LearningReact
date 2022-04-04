@@ -48,3 +48,22 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.move-list-button {
+  color: red;
+}
+
+table {
+  margin: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+caption {
+  margin-bottom: 50px;
+}
+
+.card-img {
+  float: right;
+  margin-top: -25px;
+}

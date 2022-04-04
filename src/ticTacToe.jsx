@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
 	return (
-    <button className='square' onClick={props.onClick}>
+    <button className='square' onClick={props.onClick} onMouseEnter={props.onMouseEnter}>
     	{props.value}
     </button>
   );
@@ -16,6 +16,7 @@ class Board extends React.Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        onMouseEnter={() => props.value = <strong>{props.value}</strong>}
       />
      );
   }
@@ -23,10 +24,9 @@ class Board extends React.Component {
   render() {
     return (
       <div>
+
         <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+          {[0, 1, 2].map( n => {return this.renderSquare(n)} )}
         </div>
         <div className="board-row">
           {this.renderSquare(3)}
@@ -49,6 +49,8 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        col: -1,
+        row: -1
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -61,10 +63,10 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((_step, move) => {
-      const desc = move ? 'Go to move #' + move : 'Go to game start';
+      const desc = move ? 'Go to move # ' + move + '(' + current.col + ' , ' + current.row + ')' : 'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className='move-list-item' onClick={() => this.jumpTo(move)} >{desc}</button>
         </li>
       );
     });
@@ -95,7 +97,7 @@ class Game extends React.Component {
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     	if (calculateWinner(squares) || squares[i]) {
-      		return;
+        return;
     	}
 		squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
@@ -136,8 +138,9 @@ function calculateWinner(squares) {
 }
 
 // ========================================
-
+/*
 ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+*/
